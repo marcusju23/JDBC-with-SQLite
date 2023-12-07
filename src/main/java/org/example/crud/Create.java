@@ -10,7 +10,7 @@ import static org.example.Main.connect;
 
 public class Create {
 
-    public static void userInsert(Scanner scanner) {
+    public static void insert(Scanner scanner) {
         boolean isRunning = true;
         while (isRunning) {
             try {

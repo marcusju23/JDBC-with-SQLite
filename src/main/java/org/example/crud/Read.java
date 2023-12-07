@@ -11,7 +11,7 @@ import static org.example.Main.connect;
 
 public class Read {
 
-    public static void userSelect(Scanner scanner) {
+    public static void select(Scanner scanner) {
         boolean isRunning = true;
         while (isRunning) {
             try {
