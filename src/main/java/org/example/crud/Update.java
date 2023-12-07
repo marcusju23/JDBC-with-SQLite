@@ -98,7 +98,7 @@ public class Update {
         scanner.nextLine();
 
         System.out.print("Update " + columnName + " to: ");
-        String columnValue = scanner.next();
+        String columnValue = scanner.nextLine();
         if (columnValue.equals("moviePrice") || columnValue.equals("movieID")) {
             int columnNameInt = Integer.parseInt(columnValue);
             updateMovie(columnName, columnNameInt, id);
@@ -132,5 +132,24 @@ public class Update {
     }
 
     private static void userUpdateGenre(Scanner scanner) {
+        Read.selectAllGenre();
+        int id = 0;
+        boolean isValidId = false;
+        while (!isValidId) {
+            try {
+                System.out.print("\nSelect ID to update: ");
+                id = scanner.nextInt();
+                isValidId = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid integer for the ID.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
+        scanner.nextLine(); // Consume the newline character
+
+        System.out.print("New genre: ");
+        String genre = scanner.next();
+        updateGenre(genre, id);
     }
+
 }
