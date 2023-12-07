@@ -1,6 +1,6 @@
-package org.main.crud;
+package org.example.crud;
 
-import main.Display;
+import org.example.Display;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static main.Main.connect;
+import static org.example.Main.connect;
 
 public class Update {
 

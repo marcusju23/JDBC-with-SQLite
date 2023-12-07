@@ -1,11 +1,11 @@
-package org.main.crud;
+package org.example.crud;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static main.Main.connect;
+import static org.example.Main.connect;
 
 public class Delete {
 

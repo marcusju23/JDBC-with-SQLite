@@ -1,4 +1,4 @@
-package org.main.crud;
+package org.example.crud;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static main.Main.connect;
+import static org.example.Main.connect;
 
 public class Read {
 
