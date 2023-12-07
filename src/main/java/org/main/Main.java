@@ -1,10 +1,10 @@
 package org.main;
 
-import crud.Create;
-import crud.Delete;
-import crud.Read;
-import crud.Update;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.main.crud.Create;
+import org.main.crud.Delete;
+import org.main.crud.Read;
+import org.main.crud.Update;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
