@@ -35,7 +35,6 @@ public class Read {
                 System.out.println("Invalid input. Please enter a valid integer.");
                 scanner.nextLine(); // Consume the invalid input
             }
-            Display.pressEnterToContinue(scanner);
         }
     }
 
@@ -100,7 +99,7 @@ public class Read {
 
             if (resultSet.next()) {
                 int averagePrice = resultSet.getInt("average_price");
-                System.out.println("\nAverage movie price (rounded): " + averagePrice);
+                System.out.print("\nAverage movie price (rounded): " + averagePrice);
             } else {
                 System.out.println("No results found.");
             }
