@@ -10,14 +10,14 @@ import static org.example.Main.connect;
 
 public class Read {
 
-    public static void select(Scanner scanner) {
+    public static void selectMenu(Scanner scanner) {
         boolean isRunning = true;
         while (isRunning) {
             try {
                 System.out.print("\n1. All movies\n" +
                         "2. All genres\n" +
                         "3. Average movie price (rounded)\n" +
-                        "4. Average genre\n" +
+                        "4. Amount of movies in each genre\n" +
                         "5. Back\n" +
                         "Choose an read option: ");
                 int choice = scanner.nextInt();
@@ -26,11 +26,8 @@ public class Read {
                 switch (choice) {
                     case 1 -> selectAllMovie();
                     case 2 -> selectAllGenre();
-                    case 3 -> {
-                        selectMovieAvgPrice();
-                        Display.pressEnterToContinue(scanner);
-                    }
-                    case 4 -> selectAllGenre();
+                    case 3 -> selectMovieAvgPrice();
+                    case 4 -> selectCountMovieInGenre();
                     case 5 -> isRunning = false; // Exit the loop
                     default -> System.out.println("Invalid choice. Please enter number between 1-5");
                 }
@@ -38,6 +35,7 @@ public class Read {
                 System.out.println("Invalid input. Please enter a valid integer.");
                 scanner.nextLine(); // Consume the invalid input
             }
+            Display.pressEnterToContinue(scanner);
         }
     }
 
@@ -105,6 +103,36 @@ public class Read {
                 System.out.println("\nAverage movie price (rounded): " + averagePrice);
             } else {
                 System.out.println("No results found.");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void selectCountMovieInGenre() {
+        String sql = "SELECT genre.genreID, genre.genreName, COUNT(movie.movieID) AS movieCount " +
+                "FROM genre " +
+                "LEFT JOIN movie ON genre.genreID = movie.genreID " +
+                "GROUP BY genre.genreID, genre.genreName";
+
+        // Column headers
+        String genreIdHeader = "ID:";
+        String genreHeader = "Genre:";
+        String movieCountHeader = "Movies:";
+        String formatWidth = "%-10s%-45s%-45s%n";
+
+        try {
+            Connection connection = connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            System.out.printf("\n" + formatWidth, genreIdHeader, genreHeader, movieCountHeader);
+            while (resultSet.next()) {
+                int genreID = resultSet.getInt("genreID");
+                String genreName = resultSet.getString("genreName");
+                int movieCount = resultSet.getInt("movieCount");
+
+                System.out.printf(formatWidth, genreID, genreName, movieCount);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
