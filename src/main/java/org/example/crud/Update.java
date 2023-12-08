@@ -157,5 +157,4 @@ public class Update {
         String genre = scanner.next();
         updateGenre(genre, id);
     }
-
 }
