@@ -17,8 +17,9 @@ public class Read {
                 System.out.print("\n1. All movies\n" +
                         "2. All genres\n" +
                         "3. Average movie price (rounded)\n" +
-                        "4. Amount of movies in each genre (join)\n" +
-                        "5. Back\n" +
+                        "4. Movies and Genres (join)\n" +
+                        "5. Amount of movies in each genre (join)\n" +
+                        "6. Back\n" +
                         "Choose an read option: ");
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
@@ -37,16 +38,53 @@ public class Read {
                         Display.pressEnterToContinue(scanner);
                     }
                     case 4 -> {
+                        selectMovieAndGenre();
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 5 -> {
                         selectCountMovieInGenre();
                         Display.pressEnterToContinue(scanner);
                     }
-                    case 5 -> isRunning = false; // Exit the loop
+                    case 6 -> isRunning = false; // Exit the loop
                     default -> System.out.println("Invalid choice. Please enter number between 1-5");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid integer.");
                 scanner.nextLine(); // Consume the invalid input
             }
+        }
+    }
+
+    public static void selectMovieAndGenre() {
+        String sql = "SELECT movie.movieID, movie.movieTitle, movie.movieDirector, " +
+                "genre.genreID, genre.genreName, movie.moviePrice " +
+                "FROM movie JOIN genre ON movie.genreID = genre.genreID";
+
+        // Column headers
+        String idHeader = "ID:";
+        String titleHeader = "Title:";
+        String directorHeader = "Director:";
+        String genreIDHeader = "GID:";
+        String genreHeader = "Genre:";
+        String priceHeader = "Price:";
+        String formatWidth = "%-10s%-60s%-30s%-10s%-30s%s%n"; // Align columns
+
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            System.out.printf("\n" + formatWidth, idHeader, titleHeader, directorHeader, genreIDHeader, genreHeader, priceHeader);
+            while (resultSet.next()) {
+                System.out.printf(formatWidth, resultSet.getInt("movieID"),
+                        resultSet.getString("movieTitle"),
+                        resultSet.getString("movieDirector"),
+                        resultSet.getString("genreID"),
+                        resultSet.getString("genreName"),
+                        resultSet.getString("moviePrice"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
