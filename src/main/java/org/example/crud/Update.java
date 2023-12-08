@@ -15,7 +15,7 @@ import static org.example.Main.connect;
 public class Update {
 
     private static final ArrayList<String> movieColumns = new ArrayList<>(Arrays.asList(
-            "movieID", "movieTitle", "movieDirector", "moviePrice"));
+            "movieID", "movieTitle", "movieDirector", "moviePrice", "genreID"));
 
     public static void updateMenu(Scanner scanner) {
         boolean isRunning = true;
@@ -98,14 +98,14 @@ public class Update {
             }
         }
 
-        Read.selectAllMovie();
+        Read.selectMovieAndGenre();
         System.out.print("\nSelect ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
         System.out.print("Update " + columnName + " to: ");
         String columnValue = scanner.nextLine();
-        if (columnValue.equals("moviePrice") || columnValue.equals("movieID")) {
+        if (columnValue.equals("moviePrice") || columnValue.equals("movieID") || columnValue.equals("genreID")) {
             int columnNameInt = Integer.parseInt(columnValue);
             updateMovie(columnName, columnNameInt, id);
         } else

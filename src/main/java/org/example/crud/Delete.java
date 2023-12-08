@@ -59,7 +59,7 @@ public class Delete {
     }
 
     private static void userDeleteMovie(Scanner scanner) {
-        Read.selectAllMovie();
+        Read.selectMovieAndGenre();
         System.out.println("\nEnter ID of the movie you wish to delete: ");
         int inputId = scanner.nextInt();
         deleteMovie(inputId);
