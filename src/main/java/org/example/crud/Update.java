@@ -29,8 +29,14 @@ public class Update {
                 scanner.nextLine(); // Consume the newline character
 
                 switch (choice) {
-                    case 1 -> userUpdateMovie(scanner);
-                    case 2 -> userUpdateGenre(scanner);
+                    case 1 -> {
+                        userUpdateMovie(scanner);
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 2 -> {
+                        userUpdateGenre(scanner);
+                        Display.pressEnterToContinue(scanner);
+                    }
                     case 3 -> isRunning = false; // Exit the loop
                     default -> System.out.println("Invalid choice. Please enter 1, 2, or 3.");
                 }

@@ -45,8 +45,6 @@ public class Main {
                     case 4 -> Delete.deleteMenu(scanner);
                     default -> System.out.println("Invalid action: " + action);
                 }
-                // Menu.pressEnterToContinue(scanner);
-
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 scanner.next(); // Consume the invalid input

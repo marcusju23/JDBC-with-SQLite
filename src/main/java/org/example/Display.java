@@ -21,10 +21,11 @@ public class Display {
 
     public static void movieColumns() {
         System.out.print("\n-----Movie Columns-----\n" +
-                "1  - ID\n" +
+                "1  - Movie ID\n" +
                 "2  - Title\n" +
                 "3  - Director\n" +
                 "4  - Price\n\n" +
+                "5  - Genre ID\n\n" +
                 "Enter one of the menu alternatives: ");
     }
 }

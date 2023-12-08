@@ -17,17 +17,29 @@ public class Read {
                 System.out.print("\n1. All movies\n" +
                         "2. All genres\n" +
                         "3. Average movie price (rounded)\n" +
-                        "4. Amount of movies in each genre\n" +
+                        "4. Amount of movies in each genre (join)\n" +
                         "5. Back\n" +
                         "Choose an read option: ");
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
 
                 switch (choice) {
-                    case 1 -> selectAllMovie();
-                    case 2 -> selectAllGenre();
-                    case 3 -> selectMovieAvgPrice();
-                    case 4 -> selectCountMovieInGenre();
+                    case 1 -> {
+                        selectAllMovie();
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 2 -> {
+                        selectAllGenre();
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 3 -> {
+                        selectMovieAvgPrice();
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 4 -> {
+                        selectCountMovieInGenre();
+                        Display.pressEnterToContinue(scanner);
+                    }
                     case 5 -> isRunning = false; // Exit the loop
                     default -> System.out.println("Invalid choice. Please enter number between 1-5");
                 }

@@ -1,5 +1,7 @@
 package org.example.crud;
 
+import org.example.Display;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -22,8 +24,14 @@ public class Delete {
                 scanner.nextLine(); // Consume the newline character
 
                 switch (choice) {
-                    case 1 -> userDeleteMovie(scanner);
-                    case 2 -> userDeleteGenre(scanner);
+                    case 1 -> {
+                        userDeleteMovie(scanner);
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 2 -> {
+                        userDeleteGenre(scanner);
+                        Display.pressEnterToContinue(scanner);
+                    }
                     case 3 -> isRunning = false; // Exit the loop
                     default -> System.out.println("Invalid choice. Please enter 1, 2, or 3.");
                 }

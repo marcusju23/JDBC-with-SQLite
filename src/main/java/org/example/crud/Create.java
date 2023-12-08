@@ -1,5 +1,7 @@
 package org.example.crud;
 
+import org.example.Display;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -22,8 +24,14 @@ public class Create {
                 scanner.nextLine(); // Consume the newline character
 
                 switch (choice) {
-                    case 1 -> userInsertMovie(scanner);
-                    case 2 -> userInsertGenre(scanner);
+                    case 1 -> {
+                        userInsertMovie(scanner);
+                        Display.pressEnterToContinue(scanner);
+                    }
+                    case 2 -> {
+                        userInsertGenre(scanner);
+                        Display.pressEnterToContinue(scanner);
+                    }
                     case 3 -> isRunning = false; // Exit the loop
                     default -> System.out.println("Invalid choice. Please enter 1, 2, or 3.");
                 }
@@ -34,14 +42,15 @@ public class Create {
         }
     }
 
-    private static void insertMovie(String title, String director, int price) {
-        String sql = "INSERT INTO movie(movieTitle, movieDirector, moviePrice) VALUES(?,?,?)";
+    private static void insertMovie(String title, String director, int price, int genre) {
+        String sql = "INSERT INTO movie(movieTitle, movieDirector, moviePrice, genreID) VALUES(?,?,?,?)";
         try {
             Connection connection = connect();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, director);
             preparedStatement.setInt(3, price);
+            preparedStatement.setInt(4, genre);
             preparedStatement.executeUpdate();
             System.out.println("You have added a new movie: ");
         } catch (SQLException e) {
@@ -61,8 +70,13 @@ public class Create {
                 System.out.print("Price: ");
                 int price = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character after reading the int
-                insertMovie(title, author, price);
-                System.out.println(title + ", " + author + ", " + price);
+
+                Read.selectAllGenre();
+                System.out.print("Genre ID: ");
+                int genreID = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character after reading the int
+                insertMovie(title, author, price, genreID);
+                System.out.println(title + ", " + author + ", " + price + ", " + genreID);
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter valid datatype.");
