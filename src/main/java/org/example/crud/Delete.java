@@ -10,7 +10,7 @@ import static org.example.Main.connect;
 
 public class Delete {
 
-    public static void delete(Scanner scanner) {
+    public static void deleteMenu(Scanner scanner) {
         boolean isRunning = true;
         while (isRunning) {
             try {

@@ -39,10 +39,10 @@ public class Main {
                 scanner.nextLine(); // Consume the newline character
                 switch (action) {
                     case 0 -> isRunning = false;
-                    case 1 -> Create.insert(scanner);
-                    case 2 -> Read.select(scanner);
-                    case 3 -> Update.update(scanner);
-                    case 4 -> Delete.delete(scanner);
+                    case 1 -> Create.insertMenu(scanner);
+                    case 2 -> Read.selectMenu(scanner);
+                    case 3 -> Update.updateMenu(scanner);
+                    case 4 -> Delete.deleteMenu(scanner);
                     default -> System.out.println("Invalid action: " + action);
                 }
                 // Menu.pressEnterToContinue(scanner);

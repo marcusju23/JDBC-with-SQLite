@@ -17,7 +17,7 @@ public class Update {
     private static final ArrayList<String> movieColumns = new ArrayList<>(Arrays.asList(
             "movieID", "movieTitle", "movieDirector", "moviePrice"));
 
-    public static void update(Scanner scanner) {
+    public static void updateMenu(Scanner scanner) {
         boolean isRunning = true;
         while (isRunning) {
             try {
