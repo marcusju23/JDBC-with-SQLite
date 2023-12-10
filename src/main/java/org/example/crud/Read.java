@@ -69,12 +69,17 @@ public class Read {
         String priceHeader = "Price:";
         String formatWidth = "%-10s%-60s%-30s%-10s%-30s%s%n"; // Align columns
 
-        try {
-            Connection connection = connect();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
 
-            System.out.printf("\n" + formatWidth, idHeader, titleHeader, directorHeader, genreIDHeader, genreHeader, priceHeader);
+        try {
+            connection = connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            System.out.printf("\n" + formatWidth, idHeader, titleHeader,
+                    directorHeader, genreIDHeader, genreHeader, priceHeader);
             while (resultSet.next()) {
                 System.out.printf(formatWidth, resultSet.getInt("movieID"),
                         resultSet.getString("movieTitle"),
@@ -85,6 +90,28 @@ public class Read {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
 
@@ -98,10 +125,14 @@ public class Read {
         String priceHeader = "Price:";
         String formatWidth = "%-10s%-60s%-30s%s%n"; // Align columns
 
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
         try {
-            Connection connection = connect();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            connection = connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
 
             System.out.printf("\n" + formatWidth, idHeader, titleHeader, directorHeader, priceHeader);
             while (resultSet.next()) {
@@ -112,6 +143,28 @@ public class Read {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
 
@@ -123,10 +176,14 @@ public class Read {
         String genreHeader = "Genre:";
         String formatWidth = "%-10s%-10s%n"; // Align columns
 
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
         try {
-            Connection connection = connect();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            connection = connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
 
             System.out.printf("\n" + formatWidth, idHeader, genreHeader);
             while (resultSet.next()) {
@@ -135,17 +192,42 @@ public class Read {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
 
     public static void selectMovieAvgPrice() {
         String sql = "SELECT CAST(AVG(moviePrice) AS INTEGER) AS average_price FROM movie";
 
-        try {
-            Connection connection = connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try {
+            connection = connect();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 int averagePrice = resultSet.getInt("average_price");
@@ -155,6 +237,28 @@ public class Read {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
 
@@ -170,10 +274,14 @@ public class Read {
         String movieCountHeader = "Movies:";
         String formatWidth = "%-10s%-45s%-45s%n";
 
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
         try {
-            Connection connection = connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            connection = connect();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
 
             System.out.printf("\n" + formatWidth, genreIdHeader, genreHeader, movieCountHeader);
             while (resultSet.next()) {
@@ -185,6 +293,28 @@ public class Read {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
 }

@@ -44,9 +44,12 @@ public class Create {
 
     private static void insertMovie(String title, String director, int price, int genre) {
         String sql = "INSERT INTO movie(movieTitle, movieDirector, moviePrice, genreID) VALUES(?,?,?,?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
         try {
-            Connection connection = connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            connection = connect();
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, director);
             preparedStatement.setInt(3, price);
@@ -55,6 +58,17 @@ public class Create {
             System.out.println("You have added a new movie: ");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,14 +104,28 @@ public class Create {
 
     private static void insertGenre(String genre) {
         String sql = "INSERT INTO genre(genreName) VALUES(?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
         try {
-            Connection connection = connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            connection = connect();
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, genre);
             preparedStatement.executeUpdate();
             System.out.println("You have added a new genre: " + genre);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

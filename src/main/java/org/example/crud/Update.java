@@ -48,16 +48,21 @@ public class Update {
     }
 
     private static void updateMovie(String columnName, Object columnValue, int id) {
-        String sql = "UPDATE movie SET " + columnName + " = ? WHERE movieID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
 
-        try (Connection connection = connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try {
+            connection = connect();
+            String sql = "UPDATE movie SET " + columnName + " = ? WHERE movieID = ?";
+            preparedStatement = connection.prepareStatement(sql);
 
             // set the corresponding params based on the type of columnValue
             if (columnValue instanceof String) {
                 preparedStatement.setString(1, (String) columnValue);
             } else if (columnValue instanceof Integer) {
                 preparedStatement.setInt(1, (Integer) columnValue);
+            } else {
+                throw new IllegalArgumentException("Unsupported data type: " + columnValue.getClass().getSimpleName());
             }
 
             preparedStatement.setInt(2, id);
@@ -65,8 +70,25 @@ public class Update {
             // update
             preparedStatement.executeUpdate();
             System.out.println("You have updated " + columnName + " to " + columnValue + " at ID: " + id);
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    System.out.println("Error closing PreparedStatement: " + e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("Error closing Connection: " + e.getMessage());
+                }
+            }
         }
     }
 
@@ -97,19 +119,23 @@ public class Update {
                 scanner.nextLine(); // consume the invalid input
             }
         }
+        try {
+            Read.selectMovieAndGenre();
+            System.out.print("\nSelect ID to update: ");
+            int id = scanner.nextInt();
+            scanner.nextLine();
 
-        Read.selectMovieAndGenre();
-        System.out.print("\nSelect ID to update: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Update " + columnName + " to: ");
-        String columnValue = scanner.nextLine();
-        if (columnValue.equals("moviePrice") || columnValue.equals("movieID") || columnValue.equals("genreID")) {
-            int columnNameInt = Integer.parseInt(columnValue);
-            updateMovie(columnName, columnNameInt, id);
-        } else
-            updateMovie(columnName, columnValue, id);
+            System.out.print("Update " + columnName + " to: ");
+            String columnValue = scanner.nextLine();
+            if (columnValue.equals("moviePrice") || columnValue.equals("movieID") || columnValue.equals("genreID")) {
+                int columnNameInt = Integer.parseInt(columnValue);
+                updateMovie(columnName, columnNameInt, id);
+            } else
+                updateMovie(columnName, columnValue, id);
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid integer for the ID.");
+            scanner.nextLine(); // Consume the invalid input
+        }
     }
 
     private static String getColumnAtIndex(ArrayList<String> list, int index) {
@@ -121,21 +147,33 @@ public class Update {
     }
 
     private static void updateGenre(String genre, int id) {
-        String sql = "UPDATE genre SET genreName = ? WHERE genreID = ?";
+        Connection connection = null;
 
-        try (Connection connection = connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            // set the corresponding params based on the type of columnValue
-            preparedStatement.setString(1, (String) genre);
-            preparedStatement.setInt(2, id);
+        try {
+            String sql = "UPDATE genre SET genreName = ? WHERE genreID = ?";
+            connection = connect();
 
-            // update
-            preparedStatement.executeUpdate();
-            System.out.println("New genre name: " + genre + " at ID: " + id);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, genre);
+                preparedStatement.setInt(2, id);
+
+                // update
+                preparedStatement.executeUpdate();
+                System.out.println("New genre name: " + genre + " at ID: " + id);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
+
 
     private static void userUpdateGenre(Scanner scanner) {
         Read.selectAllGenre();

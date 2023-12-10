@@ -44,9 +44,11 @@ public class Delete {
 
     private static void deleteMovie(int id) {
         String sqlDelete = "DELETE FROM movie WHERE movieID = ?";
+        Connection connection = null;
 
-        try (Connection connection = connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete)) {
+        try {
+            connection = connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete);
 
             // set the corresponding param
             preparedStatement.setInt(1, id);
@@ -55,6 +57,23 @@ public class Delete {
             System.out.println("You have removed moveID: " + id);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            // Disconnect from the database after the operation
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error while disconnecting from the database: " + e.getMessage());
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
         }
     }
 
@@ -68,9 +87,11 @@ public class Delete {
 
     private static void deleteGenre(int id) {
         String sqlDelete = "DELETE FROM genre WHERE genreID = ?";
+        Connection connection = null;
 
-        try (Connection connection = connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete)) {
+        try {
+            connection = connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete);
 
             // set the corresponding param
             preparedStatement.setInt(1, id);
@@ -79,6 +100,23 @@ public class Delete {
             System.out.println("You have removed genreID: " + id);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            // Disconnect from the database after the operation
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error while disconnecting from the database: " + e.getMessage());
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
         }
     }
 
